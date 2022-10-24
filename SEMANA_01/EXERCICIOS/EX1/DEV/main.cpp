@@ -73,7 +73,6 @@ int vetores(int val_max, int val_final, int vetor[]){
 	return 0;
 }
 
-
 // 4 - Faça uma função que recebe um vetor com 4 posições que contém 
 // o valor da distância de um pequeno robô até cada um dos seus 4 lados.
 // A função deve retornar duas informações: A primeira é a direção 
@@ -86,6 +85,21 @@ int vetores(int val_max, int val_final, int vetor[]){
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
 
+bool mapeamento(){
+  bool verificacao;
+  cout << "Ola, gostariamos de saber se você deseja continuar o mapeamento" << endl;
+  cout << "Orientações: \n 0 - sim  \n 1 - nao"<< endl;
+  cout << "Gostaria de Continuar?"<<endl;
+  cin >> verificacao;
+  
+  if(verificacao == 1){
+    cout << "O mapeamento irá continuar"<<endl;
+  }
+  else{
+    cout << "O mapeamento será encerrado"<<endl;
+  }
+  return 0;
+}
 
 // 6 - A função abaixo (que está incompleta) vai "dirigindo" virtualmente um robô 
 // e através de 4 sensores em cada um dos 4 pontos do robo ("Direita", "Esquerda", 
