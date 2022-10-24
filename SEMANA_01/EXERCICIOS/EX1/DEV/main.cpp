@@ -1,11 +1,48 @@
 #include <iostream>
 #include <string>
+#include <limits.h>
+#include <math.h>
 
+ 
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
 // entre dois valores mínimo e máximo e retorna esse valor
 
+using namespace std;
+
+int ajuste(){
+  float medida;
+  float val_min;
+  float val_max;
+  
+  cout << "Indique um valor" << endl;
+  cin >> medida; 
+
+  cout << "Indique um valor minimo:" << endl;
+  cin >> val_min;
+
+  cout << "Indique um valor maximo:" << endl;
+  cin >> val_max;
+  
+  float resultado; //Indica a porcentagem em que o valor medida esta posicionado entre o minimo e o maximo.
+
+  resultado = (medida - val_min) / (val_max - val_min);
+  cout << resultado << endl;
+  return 0;
+};
+
+
 // 2 - Faça uma função que simule a leitura de um sensor lendo o 
-// valor do teclado ao final a função retorna este valor
+// valor do teclado ao final a função retorna e ste valor
+
+float leitura(){ 
+  float valor;
+	
+  cout << "Entrada do Sensor:" << endl;
+  cin >> valor;
+  cout << valor << endl;
+  return 0;
+}
+
 
 // 3 - Faça uma função que armazena uma medida inteira qualquer 
 // em um vetor fornecido. Note que como C não possui vetores 
@@ -13,6 +50,7 @@
 // valor máximo do vetor assim como a última posição preenchida
 // Evite também que, por acidente, um valor seja escrito em 
 // uma área de memória fora do vetor
+
 
 
 
