@@ -43,7 +43,6 @@ float leitura(){
   return 0;
 }
 
-
 // 3 - Faça uma função que armazena uma medida inteira qualquer 
 // em um vetor fornecido. Note que como C não possui vetores 
 // nativos da linguagem, lembre-se que você precisa passar o 
@@ -51,7 +50,28 @@ float leitura(){
 // Evite também que, por acidente, um valor seja escrito em 
 // uma área de memória fora do vetor
 
+int vetores(int val_max, int val_final, int vetor[]){
+  int prox_valor;
+  int medida;
 
+  cout << "Indique um valor:" << endl;
+	cin >> medida;
+  
+	prox_valor = val_final + 1;
+	if((medida) > val_max){
+		cout << "Erro:" << endl;
+    cout << "Valor Maximo:" << endl;
+    cout << val_max << endl;
+    cout << "Ultima Posição:" << endl;
+    cout << val_final << endl;
+    
+	} else {
+		vetor[prox_valor] = medida;
+	}
+
+  cout << vetor << endl;
+	return 0;
+}
 
 
 // 4 - Faça uma função que recebe um vetor com 4 posições que contém 
