@@ -2,6 +2,8 @@
 #include <string>
 #include <limits.h>
 #include <math.h>
+#include <algorithm> 
+#include <vector> 
 
  
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
@@ -36,7 +38,6 @@ int ajuste(){
 
 float leitura(){ 
   float valor;
-	
   cout << "Entrada do Sensor:" << endl;
   cin >> valor;
   cout << valor << endl;
@@ -58,8 +59,9 @@ int vetores(int val_max, int val_final, int vetor[]){
 	cin >> medida;
   
 	prox_valor = val_final + 1;
+
 	if((medida) > val_max){
-		cout << "Erro:" << endl;
+	cout << "Erro:" << endl;
     cout << "Valor Maximo:" << endl;
     cout << val_max << endl;
     cout << "Ultima Posição:" << endl;
@@ -79,8 +81,53 @@ int vetores(int val_max, int val_final, int vetor[]){
 // de maior distância ("Direita", "Esquerda", "Frente", "Tras") e a 
 // segunda é esta maior distância.
 
+string dirMaiorDist(int Vetor[]){
+  int direita;
+  int esquerda;
+  int frente; 
+  int tras; 
+  int aux;
+  Vetor[4];
 
+  Vetor[0] = direita;
+  Vetor[1] = esquerda;
+  Vetor[2] = frente;
+  Vetor[3] = tras; 
 
+  sort(Vetor, Vetor+4);
+
+  if(Vetor[3]== direita){
+    return "Direita";
+  }
+  else if(Vetor[3]== esquerda){
+    return "Esquerda";
+  }
+  else if(Vetor[3]== frente){
+   return "Frente";
+  }
+  else{
+    return "Tras";
+  }
+}
+
+int maiorDist(int Vetor[]){
+  int direita;
+  int esquerda;
+  int frente; 
+  int tras; 
+  int aux;
+  Vetor[4];
+
+  Vetor[0] = direita;
+  Vetor[1] = esquerda;
+  Vetor[2] = frente;
+  Vetor[3] = tras; 
+
+  sort(Vetor, Vetor+4);
+  
+  cout << "O Maior Valor é" << endl;
+  cout << Vetor[3] << endl;
+}
 
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
@@ -91,13 +138,14 @@ bool mapeamento(){
   cout << "Orientações: \n 0 - sim  \n 1 - nao"<< endl;
   cout << "Gostaria de Continuar?"<<endl;
   cin >> verificacao;
-  
-  if(verificacao == 1){
+
+  while(verificacao == 1){
     cout << "O mapeamento irá continuar"<<endl;
+    cout << "Gostaria de Continuar?"<<endl;
+    cin >> verificacao; 
   }
-  else{
     cout << "O mapeamento será encerrado"<<endl;
-  }
+  
   return 0;
 }
 
@@ -132,7 +180,6 @@ int dirige(int *v,int maxv){
 	}
 	return posAtualVetor;
 }
-
 
 // O trecho abaixo irá utilizar as funções acima para ler os sensores e o movimento
 // do robô e no final percorrer o vetor e mostrar o movimento a cada direção baseado 
