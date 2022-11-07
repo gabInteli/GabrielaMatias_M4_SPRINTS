@@ -130,7 +130,7 @@ int maiorDist(int Vetor[]){
 }
 
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
-// retorna verdadeiro ou falso
+// retorna verdadeiro ou falso9y
 
 bool mapeamento(){
   bool verificacao;
@@ -157,7 +157,6 @@ bool mapeamento(){
 //      Ele vai armazenando estas distancias em um vetor fornecido como parâmetro 
 // e retorna a ultima posicao preenchida do vetor.
 //      Esta função deve ir lendo os 4 sensores até que um comando de pare seja enviado 
-//
 //      Para simular os sensores e os comandos de pare, use as funções já construídas 
 // nos ítens anteriores e em um looping contínuo até que um pedido de parada seja 
 // enviado pelo usuário. 
