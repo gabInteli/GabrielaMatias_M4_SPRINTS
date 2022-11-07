@@ -1,127 +1,168 @@
-// All definitions here
-#define LDR_PIN 2
-#define BUTTON1_PIN 36
-#define BUTTON2_PIN 35
-#define BUZZER_PIN 17
-#define LED_VERDE 5
-#define LED_AMARELO 6
-#define LED_BRANCO 7
-#define LED_VERMELHO 15
+int led1 = 2;
+int led2 = 42;
+int led3 = 40;
+int led4 = 38;
+int buzzer = 19;
+int button1 = 6;
+int button2 = 5;
+int ldr = 10;
+int full = false;
+int binary[4];
+const int binariesCount = 10; 
+int binaries[binariesCount*4];
+int buzzerSounds[binariesCount];
+int buzzerIndex = 0;
+int n = 0;
 
-//Posição inicial da lista
-int i = 0; 
-//Quantidade de elementos que serão armazenados
-int quantidade = 15;
-//Lista de Armazenamento 
-int armazenamento[30];
-//Valores para binarios
-int binary[4] = {0,0,0,0};
-//Possibilidades de som do Buzzer 
-int tones[15]; 
-int frequencies[15] = { 988, 1047, 1109, 1175, 1245, 1319, 1397, 1480, 1568, 1661, 1760, 1865, 1976, 2093, 2217 }; 
-
-//Função para definir valor inteiro (0,15) para as possibilidades de leitura do ldr
-int intValueConvert(int value){
-    int result = value/273;
-    return result;
+void addToBinaries() {
+  for (int i = n; i < n+4; i++) {
+    binaries[i] = binary[i-n];
+  }
 }
 
-int convertBinario(int value){
-  for (int i = 3; i>=0; i--){
-    binary[i]= value%2;
-    value = value/2;      
-  }    
+void convertBinary(int n) {
+  int aux;
+  for (int i = 3; i >= 0; i--) {
+    binary[i] = n % 2;
+    n = n / 2;
+  }
+  // VISIBILIDADE
+  for (int element : binary) {
+    Serial.print(element);
+    Serial.print(" ");
+  }
+  Serial.print("\n");
+  // FIM
 }
 
-void addToList(){
-    for(int n = i; n>=0; n++){
-       armazenamento[i] =  binary[n-1];
-    }
+int convertValue(int n) {
+  return n / 259;
 }
 
 void setup() {
+
   Serial.begin(9600);
-  pinMode(LED_VERDE, OUTPUT);
-  pinMode(LED_AMARELO, OUTPUT);
-  pinMode(LED_BRANCO, OUTPUT);
-  pinMode(LED_VERMELHO, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);  
-  pinMode(LDR_PIN, INPUT);
-  pinMode(BUTTON1_PIN, INPUT);
-  pinMode(BUTTON2_PIN, INPUT);
-  
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(button1, INPUT);
+  pinMode(button2, INPUT);
+  pinMode(ldr, INPUT);
+
 }
 
 void loop() {
-  int valueButton1 = digitalRead(BUTTON1_PIN);
-  int valueButton2 = digitalRead(BUTTON2_PIN);
+  int button1Value = digitalRead(button1);
+  int button2Value = digitalRead(button2);
+
+  if (button1Value == 1 and full == false) {
+
+    delay(1000);
+    int ldrValue = analogRead(ldr);
+    ldrValue = convertValue(ldrValue); 
     
-    if(valueButton1 == 1){
-      delay(200);
-      int readLDR = analogRead(LDR_PIN);
-      readLDR = intValueConvert(readLDR);
-      convertBinario(readLDR);
-      tones[i] = frequencies[readLDR];
-      for(int n = 0; n<4; n++){
-        if(binary[n]==1){
-          digitalWrite(LED_VERMELHO, 1);
-        }
-        if(binary[n+1]==1){
-          digitalWrite(LED_BRANCO, 1);
-        }
-        if(binary[n+2]==1){
-          digitalWrite(LED_AMARELO, 1);
-        }
-        if(binary[n+3]==1){
-          digitalWrite(LED_VERDE, 1);
-        }
-        tone(BUZZER_PIN, tones[i]);
-        delay(200);
-        tone(BUZZER_PIN, 0); 
-        digitalWrite(LED_VERMELHO, 0);     
-        digitalWrite(LED_BRANCO, 0);
-        digitalWrite(LED_AMARELO, 0);
-        digitalWrite(LED_VERDE, 0);         
-      }   
-      addToList();           
-      i++;  
+    // VISIBILIDADE
+    Serial.println(ldrValue);
+    // FIM
+
+    convertBinary(ldrValue);
+    if (binary[0] == 1) {
+      digitalWrite(led1, HIGH);
+    }
+    if (binary[1] == 1) {
+      digitalWrite(led2, HIGH);
+    }
+    if (binary[2] == 1) {
+      digitalWrite(led3, HIGH);
+    }
+    if (binary[3] == 1) {
+      digitalWrite(led4, HIGH);
     }
 
-    if(valueButton2 == 1){
-      delay(500);      
-      //Reinicialização da variavel i 
-      i = 0; 
-      //Varredura de itens da lista de elementos binarios 
-      for(int n = 0; n < quantidade;i = i+4){
-        if(armazenamento[n]==1){
-          digitalWrite(LED_VERMELHO, 1);
-        }
-        if(armazenamento[n+1]==1){
-          digitalWrite(LED_BRANCO, 1);
-        }
-        if(armazenamento[n+2]==1){
-          digitalWrite(LED_AMARELO, 1);
-        }
-        if(armazenamento[n+3]==1){
-          digitalWrite(LED_VERDE, 1);
-        }
-        tone(BUZZER_PIN, tones[i]);
-        delay(200);
-        tone(BUZZER_PIN, 0); 
-        digitalWrite(LED_VERMELHO, 0);     
-        digitalWrite(LED_BRANCO, 0);
-        digitalWrite(LED_AMARELO, 0);
-        digitalWrite(LED_VERDE, 0);
-        i++        
-;      }
-
-        for(int j = 0; j< quantidade*2; j++){
-            armazenamento[j] = 0; 
-        }
-        
-        for(int j = 0; j<quantidade; j++){
-            tones[j] = 0; 
-        }
-        i = 0;        
+    buzzerSounds[buzzerIndex] = ldrValue * 300;
+    tone(buzzer, buzzerSounds[buzzerIndex]);
+    buzzerIndex++;
+    delay(500);
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    tone(buzzer, 0);
+    addToBinaries();
+    n += 4;
+    if (n == binariesCount*4) {
+      full = true;
     }
-}
+
+    // VISIBILIDADE
+    for (int element : binaries) {
+    Serial.print(element);
+    Serial.print(" ");
+    }
+    Serial.print("\n");
+    Serial.print("\n");
+    // FIM
+    Serial.print("\n");
+    for (int element : buzzerSounds) {
+      Serial.print(element);
+      Serial.print(" ");
+      }
+      Serial.print("\n");
+      Serial.print("\n");
+      // FIM
+      Serial.print("\n");
+  }
+  if (button2Value == 1) {
+
+    delay(1000);
+    buzzerIndex = 0;
+    int playIndex = 0;
+    for (int n = 0; n <= binariesCount; n++) {
+
+      if (binaries[playIndex] == 1) {
+        digitalWrite(led1, HIGH);
+      }
+      if (binaries[playIndex+1] == 1) {
+        digitalWrite(led2, HIGH);
+      }
+      if (binaries[playIndex+2] == 1) {
+        digitalWrite(led3, HIGH);
+      }
+      if (binaries[playIndex+3] == 1) {
+        digitalWrite(led4, HIGH);
+      }
+
+      tone(buzzer, buzzerSounds[buzzerIndex]);
+
+      buzzerIndex++;
+      playIndex += 4;
+
+      delay(500);
+      digitalWrite(led1, LOW);
+      digitalWrite(led2, LOW);
+      digitalWrite(led3, LOW);
+      digitalWrite(led4, LOW);
+      tone(buzzer, 0);
+      }
+    for (int i = 0; i < binariesCount*4; i++) {
+      binaries[i] = 0;
+    }
+    for (int i = 0; i < binariesCount; i++) {
+      buzzerSounds[i] = 0;
+    }
+    for (int element : binaries) {
+      Serial.print(element);
+      Serial.print(" ");
+    }
+    Serial.print("\n");
+    for (int element : buzzerSounds) {
+      Serial.print(element);
+      Serial.print(" ");
+    };
+    Serial.print("\n");
+    buzzerIndex = 0;
+    n = 0;
+    }
+  }
