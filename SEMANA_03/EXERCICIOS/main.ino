@@ -3,8 +3,8 @@ int led2 = 42;
 int led3 = 40;
 int led4 = 38;
 int buzzer = 19;
-int button1 = 6;
-int button2 = 5;
+int button1 = 5;
+int button2 = 6;
 int ldr = 10;
 int full = false;
 int binary[4];
@@ -36,7 +36,7 @@ void convertBinary(int n) {
 }
 
 int convertValue(int n) {
-  return n / 259;
+  return n / 273;
 }
 
 void setup() {
